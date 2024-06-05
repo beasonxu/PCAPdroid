@@ -94,6 +94,7 @@ public class Blacklists {
         addList("DigitalSide Threat-Intel", BlacklistDescriptor.Type.IP_BLACKLIST,  "digitalsideit_ips.txt",
                 "https://raw.githubusercontent.com/davidonzo/Threat-Intel/master/lists/latestips.txt");
 
+        addList("Shadowrocket-ADBlock-Rules-Forever", BlacklistDescriptor.Type.DOMAIN_BLACKLIST,"sr_top500_whitelist_ad.conf","https://johnshall.github.io/Shadowrocket-ADBlock-Rules-Forever/sr_top500_whitelist_ad.conf");
         // To review
         //https://github.com/StevenBlack/hosts
         //https://phishing.army/download/phishing_army_blocklist.txt
