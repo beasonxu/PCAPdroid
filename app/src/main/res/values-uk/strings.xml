@@ -8,9 +8,6 @@
     <string name="no_apps">Без додатків</string>
     <string name="dns_queries">Запитів DNS</string>
     <string name="notification_msg">%1$s захоплено, %2$s з\'єднань</string>
-    <string name="lang_english">Англійська</string>
-    <string name="theme_dark">Темна</string>
-    <string name="app_theme">Тема</string>
     <string name="socks5_proxy">SOCKS5</string>
     <string name="ip_address_val">IP адреса: %1$s</string>
     <string name="host_val">Хост: %1$s</string>
@@ -21,7 +18,7 @@
     <string name="target_sdk">Цільовий SDK</string>
     <string name="capture_prefs">Захопити</string>
     <string name="show_only_malicious">Зловмисні з\'єднання</string>
-    <string name="status_filter">Статус: %1$s</string>
+    <string name="status_filter">Статус HTTP: %1$s</string>
     <string name="asn">ASN</string>
     <string name="country_val">Країна: %1$s</string>
     <string name="malware_status_detected">Виявлено зловмисні з\'єднання</string>
@@ -35,12 +32,18 @@
     <string name="ip_rules">Правил IP</string>
     <string name="update_now">Оновити зараз</string>
     <string name="status_updating">Оновлення…</string>
-    <string name="decryption_no_filter_warn">Виберіть цільову програму або використовуйте білий список дешифрування при дешифруванні TLS, щоб уникнути втрати з\'єднання з Інтернетом</string>
+    <string name="decryption_no_filter_warn">Виберіть цільову програму при дешифруванні TLS, щоб уникнути втрати з\'єднання з Інтернетом</string>
     <string name="block">Блокується…</string>
     <string name="unblock">Розблоковується…</string>
     <string name="firewall">Фаєрвол</string>
     <string name="network_interface">Інтерфейс</string>
     <string name="interface_filter">Інтерфейс: %1$s</string>
+    <string name="request_method">Метод запиту</string>
+    <string name="content_type">Тип вмісту</string>
+    <string name="http_status">HTTP статус</string>
+    <string name="payload_size_threshold">Поріг розміру корисного навантаження</string>
+    <string name="method_filter">Метод: %1$s</string>
+    <string name="content_type_filter">Content-Type: %1$s</string>
     <string name="loading">Вантаження…</string>
     <string name="billing_failure">Не вдалося під\'єднатися до Google Play. Будь ласка, спробуйте пізніше</string>
     <string name="learn_more">Дізнатися більше</string>
@@ -57,9 +60,10 @@
     <string name="decrypted">Дешифровано</string>
     <string name="decryption">Дешифрування</string>
     <string name="waiting_application_data">Очікування даних</string>
-    <string name="display_as">Показати як…</string>
-    <string name="printable_text">Текст для друку</string>
+    <string name="text">Текст</string>
     <string name="hexdump">Hex дамп</string>
+    <string name="display_as_text">Відобразити як текст</string>
+    <string name="display_as_hexdump">Відобразити як hexdump</string>
     <string name="geolocation_summary">Показати країну та ASN інформацію, виконавши офлайн пошуки</string>
     <string name="geo_db_not_found">Базу даних не знайдена. Геолокацію вимкнено</string>
     <string name="database">База даних</string>
@@ -90,19 +94,15 @@
     <string name="mitm_wizard_description">Налаштувати пристрій для дешифрування TLS</string>
     <string name="license_error">Помилка генерування ліцензії [%1$d]: %2$s</string>
     <string name="requesting_license">Запит коду ліцензії, будь ласка, зачекайте</string>
-    <string name="pcap_file_not_exists">Вказаний файл PCAP не існує</string>
-    <string name="pcap_read_error">Помилка читання PCAP</string>
-    <string name="pcapdroid_trailer_notice">Для показу актуальних додатків замість \"%1$s\", переконайтеся, що увімкнено опцію \"%2$s\" перед експортуванням файлу PCAP</string>
+    <string name="pcap_file_not_exists">Вказаний файл не існує</string>
+    <string name="pcap_read_error">Помилка читання файла захоплення. Перевірте журнал для подробиць</string>
+    <string name="pcapdroid_trailer_notice">Для показу актуальних додатків замість \"%1$s\", переконайтеся, що увімкнено опцію \"%2$s\" перед генеруванням дампу</string>
     <string name="active_vpn_detected">Виявлено активний VPN</string>
-    <string name="app_intro_firewall_msg">З вбудованим <a href="%1$s">Фаєрволом</a> можна легко блокувати доступ до інтернету для окремих додатків і доменів
-\n
-\nПоєднайте це з вбудованим відстеженням трафіку, щоб отримати найкращий інструмент для захисту вашої конфіденційності</string>
+    <string name="app_intro_firewall_msg">З вбудованим <a href="%1$s">Фаєрволом</a> можна легко блокувати доступ до інтернету для окремих додатків, доменів і країн \n \nПоєднайте це з вбудованим відстеженням трафіку, щоб отримати найкращий інструмент для захисту вашої конфіденційності</string>
     <string name="app_intro_malware_detection">Покращить безпеку вашого пристрою з функцією <a href="%1$s">виявлення зловмисного ПЗ</a>
 \n
 \nВикористовуючи актуальні чорні списки, він може виявляти, блокувати та попереджати про зловмисні з\'єднання в реальному часі</string>
-    <string name="app_intro_traffic_dump">PCAPdroid надає <a href="%1$s">кілька способів</a> дампувати трафік у стандартний формат PCAP для подальшого аналізу
-\n
-\nЗа допомогою <a href="%2$s">опції вкладення</a>, ви можете додати назви додатків до пакетів і показувати їх у Wireshark</string>
+    <string name="app_intro_traffic_dump">PCAPdroid надає <a href="%1$s">кілька способів</a> дампувати трафік у стандартний формат PCAP для подальшого аналізу \n \nЗа допомогою <a href="%2$s">опції розширення PCAPdroid</a>, ви можете додати назви додатків до пакетів і показувати їх у Wireshark</string>
     <string name="low_memory">Недостатньо пам\'яті</string>
     <string name="low_memory_info">Додатку не вистачає пам\'яті, очікуються збої</string>
     <string name="full_payload_disabled">Опцію повного корисного навантаження вимкнуто</string>
@@ -133,22 +133,18 @@
     <string name="remote_collector_notice">Ви налаштували PCAPdroid для надсилання трафіку віддаленому серверу. Сервер зможе отримати доступ до вашої конфіденційної інформації.
 \n
 \nЯкщо хтось попросив вас це зробити, це, ймовірно, спроба шахрайства</string>
-    <string name="remote_server_warning">З міркувань безпеки, надсилання трафіку на віддалений сервер \"%1$s\" не дозволено\"</string>
+    <string name="remote_server_warning">З міркувань безпеки, надсилання трафіку на віддалений сервер \"%1$s\" не дозволено</string>
     <string name="warning">Застереження</string>
     <string name="paid_features_unlocked">Платні функції розблоковано. Перезапустіть захоплення, якщо виконується</string>
-    <string name="tls_decryption_with_root_msg">Можливість виконати дешифрування TLS з рут це експериментальна функція. Список відомих багів:
-\n
-\n - у PCAPdroid ви побачите трафік, згенерований додатком доповненням mitm замість оригінальним додатком
-\n - коли встановлено фільтр додатку, дешифрування відбуватиметься лише для цільового додатка, але PCAPdroid все одно показуватиме трафік інших додатків
-\n - якщо захоплення не вдається запустити, переконайтеся, що ви дійсно можете виконувати команду iptables як рут (наприклад, через termux)
-\n - може не працювати на Android 12 і вище
-\n - якщо додаток VPN виконується, ви повинні або вибрати конкретний додаток для дешифрування або виключити доповнення PCAPdroid mitm з VPN, інакше трафік буде зациклений</string>
+    <string name="tls_decryption_with_root_msg">Можливість виконати дешифрування TLS з рут це експериментальна функція. Список відомих багів: \n \n - у PCAPdroid ви побачите трафік, згенерований додатком доповненням mitm замість оригінальним додатком \n - Дамп журналу ключів SSL не підтримується \n - коли встановлено фільтр додатку, дешифрування відбуватиметься лише для цільового додатка, але PCAPdroid все одно показуватиме трафік інших додатків \n - якщо захоплення не вдається запустити, переконайтеся, що ви дійсно можете виконувати команду iptables як рут (наприклад, через termux) \n - може не працювати на Android 12 і вище \n - якщо додаток VPN виконується, ви повинні або вибрати конкретний додаток для дешифрування або виключити доповнення PCAPdroid mitm з VPN, інакше трафік буде зациклений</string>
     <string name="unlock_token_summary">Токен який може використовуватися для розблокування платних функцій в збірках додатку без Google Play (наприклад, F-Droid/Github)</string>
     <string name="unlock_token_error">Не вдався запит токена розблокування [%1$d]: %2$s</string>
     <string name="access_paid_features_msg">Ознайомтесь з <a href="%1$s">посібником користувача</a>, щоб дізнатися, як отримати доступ до платних функцій</string>
     <string name="license_service_unavailable">Служба ліцензування PCAPdroid зараз недоступна. Будь ласка, повторіть спробу через кілька хвилин</string>
     <string name="requesting_unlock_token">Запит токена розблокування, зачекайте, будь ласка</string>
     <string name="show_action">Показати</string>
+    <string name="show_connection">Показати з\'єднання</string>
+    <string name="show_system_apps">Показати системні додатки</string>
     <string name="unlock_token_msg1">Це ваш токен розблокування. Занотуйте його, оскільки він вам знадобиться <a href="%1$s">для генерування ваших кодів ліцензії</a></string>
     <string name="paid_feature">Платна функція</string>
     <string name="firewall_purchase_msg">Купіть функцію <i>%1$s</i>, щоб розпочати блокування з\'єднання</string>
@@ -168,7 +164,7 @@
     <string name="redirect_to">Перенаправити до:</string>
     <string name="original_port">Оригінальний порт</string>
     <string name="required">обов’язково</string>
-    <string name="destination_ip">IP адреса призначення</string>
+    <string name="destination_host">Хост призначення</string>
     <string name="destination_port">Порт призначення</string>
     <string name="port_mapping_exists">Мапування порту вже визначене</string>
     <string name="items_delete_confirm">Видалити вибрані елементи\?</string>
@@ -183,7 +179,7 @@
     <string name="external_storage_perm_required">Потрібен дозвіл на доступ до зовнішньої пам\'яті</string>
     <string name="many_rules_warning">Ви намагаєтеся імпортувати багато правил, які можуть зробити додаток не відповідним під час деяких взаємодій. Ви дійсно хочете продовжити\?</string>
     <string name="pcapng_format">Формат Pcapng</string>
-    <string name="pcapng_format_summary">Дамп пакетів у форматі дампу pcapng, який дозволяє вкладання секретів дешифрування TLS</string>
+    <string name="pcapng_format_summary">Дамп пакетів у форматі дампу Pcapng, який більш гнучкий і дозволяє вкладання секретів дешифрування TLS</string>
     <string name="sort_by">Сортувати за</string>
     <string name="total_bytes">Всього байт</string>
     <string name="write_ext_storage_failed">Не вдалося записати на зовнішню пам\'ять. Перевірте лог додатку для подробиць</string>
@@ -207,16 +203,15 @@
     <string name="dont_decrypt_action">Не дешифрується…</string>
     <string name="status_encrypted">Зашифровано</string>
     <string name="injected">Введено</string>
-    <string name="open_pcap_file">Відкрити файл PCAP…</string>
-    <string name="pcap_load_success">Файл PCAP завантажено</string>
-    <string name="invalid_pcap_file">Недійсний файл PCAP</string>
+    <string name="open_pcap_file">Відкрити файл PCAP/Pcapng…</string>
+    <string name="pcap_load_success">Захоплення завантажено</string>
+    <string name="invalid_pcap_file">Недійсний формат захоплення</string>
     <string name="capture_interface_open_error">Не вдалося відкрити інтерфейс захоплення</string>
-    <string name="unsupported_pcap_datalink">Файл PCAP не підтримується каналом передачі даних</string>
+    <string name="unsupported_pcap_datalink">Файл не підтримується каналом передачі даних</string>
     <string name="root_capture_start_failed">Запуск захоплення не вдався. Переконайтеся що пристрій рутовано з Magisk</string>
-    <string name="pcap_file_load_aborted">Вантаження файлу PCAP перервано</string>
+    <string name="pcap_file_load_aborted">Вантаження захоплення перервано</string>
     <string name="host_resolution_failed">Не вдається визначити хост %1$s</string>
-    <string name="live_capture">Захоплення наживо</string>
-    <string name="decryption_info_no_rule">Це з\'єднання не дешифрується. Створіть правило дешифрування, щоб дешифрувати його</string>
+    <string name="decryption_info_no_rule">Щоб дешифрувати це з\'єднання, створіть правило дешифрування з лівої панелі або з контекстного меню в списку З\'єднання</string>
     <string name="tls_decryption_no_rules_notice">Дешифрування TLS застосовується лише для з\'єднань, які відповідають налаштованим правилам. Ви хочете створити правила дешифрування зараз\?</string>
     <string name="stop_button">Зупинити</string>
     <string name="title_activity_settings">Налаштування</string>
@@ -243,7 +238,7 @@
     <string name="http_server_info">Запустити HTTP сервер для завантаження PCAP</string>
     <string name="udp_exporter_info">Надсилання PCAP до віддаленого UDP приймача</string>
     <string name="http_server_port">Порт HTTP сервера</string>
-    <string name="receiver_ip_address">IP адреса для збору</string>
+    <string name="receiver_host">Хост для збору</string>
     <string name="receiver_port">Порт для збору</string>
     <string name="traffic_dump">Дамп трафіку</string>
     <string name="user_guide">Посібник користувача</string>
@@ -261,7 +256,7 @@
     <string name="dns_server">Сервер DNS</string>
     <string name="apps">Додатки</string>
     <string name="pcap_file">Файл PCAP</string>
-    <string name="pcap_file_info">Створити файл PCAP на пристрої</string>
+    <string name="pcap_file_info">Створити файл PCAP/Pcapng на пристрої</string>
     <string name="cannot_write_file">Неможливо записати файл</string>
     <string name="share">Поділитися</string>
     <string name="delete">Видалити</string>
@@ -276,7 +271,6 @@
     <string name="last_seen">Востаннє виявлено</string>
     <string name="conn_status_closed">Закрите</string>
     <string name="copy_to_clipboard">Копіювати</string>
-    <string name="save_to_file">Зберегти до файлу</string>
     <string name="older_connections_notice">%1$d застарілих з\'єднань не показано</string>
     <string name="about_text">PCAPdroid є інструментом з відкритим кодом для захоплення та моніторингу мережі який працює без рут прав</string>
     <string name="get_app">Отримати:</string>
@@ -289,7 +283,6 @@
     <string name="system_default">Системна</string>
     <string name="no_activity_file_selection">Не знайдено програми для ручного вибирання файлу</string>
     <string name="file_saved_with_name">Файл збережено як \"%1$s\"</string>
-    <string name="theme_light">Світла</string>
     <string name="socks5_redirection">Перенаправлення SOCKS5</string>
     <string name="socks5_summary">Параметри перенаправлення до проксі SOCKS5</string>
     <string name="enable_socks5_proxy_summary">Перенаправити TCP всі з\'єднання до проксі SOCKS5</string>
@@ -307,6 +300,7 @@
     <string name="app_val">Додаток: %1$s</string>
     <string name="malware_whitelist_action">Білий список (зловмисне ПЗ)…</string>
     <string name="hide">Приховати…</string>
+    <string name="select">Вибрати</string>
     <string name="n_selected">%1$d вибрано</string>
     <string name="app_details">Подробиці додатку</string>
     <string name="package_name">Ім\'я пакету</string>
@@ -319,9 +313,6 @@
     <string name="phone_app_info">Телефонні сервіси</string>
     <string name="unknown_app_info">\"Невідомо\" позначаються з\'єднання, якщо додаток не вдалося визначити</string>
     <string name="packets_dropped">Втрачено пакетів</string>
-    <string name="pcapdroid_trailer">Вкладення PCAPdroid</string>
-    <string name="pcapdroid_trailer_summary">Вкладення, що містить додаткові метадані (наприклад, назва програми) буде додано до вивантажених пакетів</string>
-    <string name="trailer_how_to">Як показувати вкладені дані в Wireshark</string>
     <string name="pending_transaction">Будь ласка, виконайте транзакцію, щоб активувати цю функцію</string>
     <string name="ctrl_consent">Додаток хоче захопити трафік вашого пристрою.
 \nЗабороніть, якщо не впевнені</string>
@@ -338,7 +329,6 @@
     <string name="edit_list">Редагувати список</string>
     <string name="hidden_connections_rules">Правила прихованих з\'єднань</string>
     <string name="list_is_empty">Список порожній</string>
-    <string name="malicious_connection_app">Виявлено зловмисне з\'єднання (%1$s)</string>
     <string name="show_only_cleartext">Незашифровані текстові з\'єднання</string>
     <string name="security">Захист</string>
     <string name="malware_detection">Виявлення зловмисного ПЗ</string>
@@ -356,9 +346,9 @@
     <string name="show_me">Показати</string>
     <string name="hint">Підказка</string>
     <string name="once">Раз</string>
-    <string name="forever">Завжди</string>
+    <string name="forever">Назавжди</string>
     <string name="control_permissions_summary">Виберіть, яким програмам дозволено керувати захопленням PCAPdroid</string>
-    <string name="control_permissions_item">%1$s: %2$s</string>
+    <string name="name_value">%1$s: %2$s</string>
     <string name="country">Країна</string>
     <string name="send_report">Надіслати звіт</string>
     <string name="start_at_boot">Запускати при завантаженні</string>
@@ -412,7 +402,6 @@
     <string name="mitm_addon_bad_version">Неправильна версія доповнення PCAPdroid mitm. Будь ласка, встановіть версію %1$s і повторіть спробу</string>
     <string name="mitm_addon_new_version">Необхідно оновити доповнення PCAPdroid mitm</string>
     <string name="mitm_addon">доповнення mitm</string>
-    <string name="upgrade_action">Оновити</string>
     <string name="export_failed">Не вдалося експортувати</string>
     <string name="not_encrypted">Не зашифровано</string>
     <string name="request">Запит</string>
@@ -426,15 +415,17 @@
     <string name="full_payload">Повне корисне навантаження</string>
     <string name="full_payload_summary">Показати повне корисне навантаження з\'єднань (наприклад, повний HTTP запит і відповідь). Це вимагає багато пам\'яті, не використовуйте довго</string>
     <string name="not_decryptable">Не дешифрувати</string>
-    <string name="decryption_filter">Дешифрування: %1$s</string>
+    <string name="decryption_filter">Статус: %1$s</string>
     <string name="connection_start_not_seen">PCAPdroid не виявив початку цього з\'єднання. Деяка інформація може зникнути</string>
     <string name="network_traffic">Трафік</string>
     <string name="warn_no_app_data">Дані програми не обміняно</string>
     <string name="geolocation">Геолокація</string>
     <string name="downloading">Завантаження…</string>
     <string name="download_in_progress">Триває завантаження, зачекайте, будь ласка</string>
-    <string name="pcap_load_in_progress">Триває вантаження файлу PCAP, будь ласка, зачекайте</string>
+    <string name="pcap_load_in_progress">Триває завантаження захоплення, будь ласка, зачекайте</string>
     <string name="download_failed">Не вдалося завантажити</string>
+    <string name="exporting">Експорт…</string>
+    <string name="export_in_progress">Експорт виконується, зачекайте</string>
     <string name="built_on">Створено: %1$s</string>
     <string name="geo_db_download">Торкніться, щоб завантажити останню базу даних. Нові бази даних доступні щомісячно</string>
     <string name="size_x">Розмір: %1$s</string>
@@ -482,4 +473,145 @@
     <string name="control_permissions">Керування дозволами</string>
     <string name="blacklist_type_domain">Домен чорного списку</string>
     <string name="root_capture_pcapd_start_failure">Збій запуску захоплення. Переконайтеся, що ви надали рут доступ PCAPdroid</string>
+    <string name="redirected">перенаправлено</string>
+    <string name="never">Ніколи</string>
+    <string name="both">Обидва</string>
+    <string name="whats_new">Що нового</string>
+    <string name="ipv6_bytes_sent">Надіслано IPv6 байт</string>
+    <string name="ipv6_bytes_rcvd">Отримано IPv6 байт</string>
+    <string name="mitm_doze_notice">Оптимізація акумулятора може перешкоджати роботі доповнення mitm</string>
+    <string name="headers">Заголовки</string>
+    <string name="connection_redirected_port_map">Це з\'єднання перенаправлено через правило мапування портів</string>
+    <string name="always">Завжди</string>
+    <string name="for_connections_to_decrypt">Тільки для з\'єднань для дешифрування</string>
+    <string name="target_apps_help">Виберіть додатки для захоплення</string>
+    <string name="restart_on_disconnection_summary">Автоматичний перезапуск захоплення після зупинки іншими VPN-програмами</string>
+    <string name="raw_bytes">Необроблених байт</string>
+    <string name="waiting_for_vpn_disconnect">Очікується від\'єднання активного VPN…</string>
+    <string name="body">Головна частина</string>
+    <string name="decrypt_quic_notice">Дешифрування QUIC наразі не підтримується. Як обхідний шлях, зупиніть захоплення і виберіть опцію блокування QUIC в налаштуваннях PCAPdroid</string>
+    <string name="ipv6_bytes_percentage">Відсоток IPv6 байт</string>
+    <string name="export_ellipsis">Експорт…</string>
+    <string name="target_apps">Цільові додатки</string>
+    <string name="vpn_reconnection">Перепід\'єднання VPN</string>
+    <string name="vpn_reconnection_aborted">Перепід\'єднання VPN перервано</string>
+    <string name="restart_on_disconnection">Перезапускати при від\'єднанні</string>
+    <string name="dnscrypt_how_to">Як використовувати DoH / DNSCrypt з PCAPdroid</string>
+    <string name="update_available">Доступне оновлення</string>
+    <string name="mitm_addon_update_available">Вийшло нове оновлення доповнення mitm. Оновіть, щоб отримати найсвіжіші виправлення помилок</string>
+    <string name="update_action">Оновити</string>
+    <string name="errno_econnreset">З\'єднання скинуто одноранговим пристроєм</string>
+    <string name="dns_conn_info">DNS перетворює доменне ім\'я на IP адресу. Фактичні дані зазвичай обмінюються через подальші з\'єднання HTTPS/TLS</string>
+    <string name="errno_econnreset_msg">Сервер раптово закрив з\'єднання, зазвичай через збій або несподіване вимкнення</string>
+    <string name="errno_econnrefused">Відмовлено у підключенні</string>
+    <string name="errno_econnrefused_msg">Сервер відхилив з\'єднання, що може свідчити про надмірну зайнятість або несправність сервера</string>
+    <string name="tls_conn_info">Трафік TLS/HTTPS зашифрований. Щоб оглядати цей трафік, необхідно його дешифрувати. Детальніше в <a href="%1$s">посібнику користувача</a> PCAPdroid</string>
+    <string name="filename_prefix">Префікс імені файлу</string>
+    <string name="filename_prefix_description">Встановити префікс для файлів, експортованих PCAPdroid, наприклад файлів PCAP</string>
+    <string name="no_requests">Немає запитів</string>
+    <string name="item_not_found">Не вдалося знайти вказаний елемент</string>
+    <string name="connection_number">З\'єднання #%1$d</string>
+    <string name="http_request_number">HTTP запит #%1$d</string>
+    <string name="http_requests">HTTP запити</string>
+    <string name="switch_to_http">Показати HTTP запити</string>
+    <string name="switch_to_connections">Показати з\'єднання</string>
+    <string name="decryption_error">Помилка дешифрування</string>
+    <string name="previous">Назад</string>
+    <string name="next">Далі</string>
+    <string name="save_as_text">Зберегти як текст</string>
+    <string name="save_as_har">Зберегти як HAR</string>
+    <string name="errno_enetdown_msg">Мережевий інтерфейс не працює або неможливо підключитися до мережі</string>
+    <string name="malicious_connection_description">З\'єднання з додатка \"%1$s\" викликало правило виявлення зловмисного ПЗ (%2$s)</string>
+    <string name="cidr_val">CIDR: %1$s</string>
+    <string name="dump_extensions_summary">Розширити формат дампа пакетів додатковими метаданими, такими як додаток, який відправив/отримав врахований пакет</string>
+    <string name="country_rules_warning">Щоб використовувати правила фаєрвола на основі країн, завантажте базу даних геолокацій з налаштувань PCAPdroid, інакше правила на основі країн будуть неефективними</string>
+    <string name="malicious_connections_notice">Чорні списки можуть містити помилкові спрацьовування. Обов\'язково перевірте репутацію IP адреси/домену в Інтернеті. Можна виключити хибні спрацьовування за допомогою білого списку зловмисного ПЗ</string>
+    <string name="geo_db_missing">Відсутня база даних геолокацій</string>
+    <string name="ip_address_or_cidr">IP адреса / CIDR</string>
+    <string name="unsupported_pcap_file">Непідтримуваний формат захоплення</string>
+    <string name="errno_enetunreach_msg">Система не може знайти дійсний маршрут до мережі призначення</string>
+    <string name="bytes_threshold">Поріг у байтах</string>
+    <string name="errno_enetreset">Мережу скинуто</string>
+    <string name="errno_econnaborted">З\'єднання перервано</string>
+    <string name="errno_epipe">Розрив тунелювання</string>
+    <string name="errno_epipe_msg">Сервер несподівано закрив з\'єднання під час передачі даних</string>
+    <string name="errno_enetdown">Мережа не працює</string>
+    <string name="errno_enetunreach">Мережа недосяжна</string>
+    <string name="errno_econnaborted_msg">З\'єднання було перервано, як правило, через зміну мережі</string>
+    <string name="errno_etimedout">Вичерпано час з\'єднання</string>
+    <string name="errno_etimedout_msg">Сервер надто довго відповідав, ймовірно, через затримки в мережі чи зайнятість сервера</string>
+    <string name="errno_ehostunreach">Немає маршруту до хосту</string>
+    <string name="errno_ehostunreach_msg">Система не може знайти маршрут до хоста призначення</string>
+    <string name="dump_extensions">Розширення PCAPdroid</string>
+    <string name="dump_extensions_how_to">Як зображати розширення дампа PCAPdroid у Wireshark</string>
+    <string name="error_code_with_text">%1$s (помилка %2$d)</string>
+    <string name="errno_enetreset_msg">Мережеве з\'єднання було скинуто пристроєм-посередником (наприклад, роутером або мобільним оператором)</string>
+    <string name="tcp_udp_exporter">Експортер TCP/UDP</string>
+    <string name="tcp_collector_info">Збирач TCP: %1$s:%2$d</string>
+    <string name="no_permissions_set_info">Дозволи не надано. Викличте PCAPdroid через StartActivityForResult для відображення запиту на отримання дозволів</string>
+    <string name="tcp_exporter_info">Надсилання PCAP до віддаленого TCP приймача (pcap-over-ip)</string>
+    <string name="tcp_exporter">Експортер TCP</string>
+    <string name="generate_api_key">Згенерувати API-ключ</string>
+    <string name="show_api_key">Показати API-ключ</string>
+    <string name="api_key">API-ключ</string>
+    <string name="api_key_discard_confirm">Ви дійсно хочете скасувати поточний API-ключ і згенерувати новий?</string>
+    <string name="allow_for_app">Дозволити для %1$s…</string>
+    <string name="allowlist_allow">Дозволити %1$s</string>
+    <string name="allowlist_remove">Видалити %1$s</string>
+    <string name="allowlist">Білий список</string>
+    <string name="app_allowlist_help">Тут ви можете вказати набір правил, щоб дозволити деякі підключення програми, а решту залишити заблокованими</string>
+    <string name="app_with_exceptions">%1$s(%2$d винятки)</string>
+    <string name="port_map_exemptions">Винятки</string>
+    <string name="port_map_exemptions_help">Виберіть програми, які потрібно виключити з відображення портів. Щоб запобігти зацикленню трафіку, слід виключити програми, яким потрібно звернутися до своїх вихідних серверів для завантаження (наприклад, DNS-over-HTTPS resolvers)</string>
+    <string name="feature_unavailable">Функція \"%1$s\" недоступна</string>
+    <string name="port_mapping_disabled_reminder">Увімкніть зіставлення портів, щоб використовувати це правило</string>
+    <string name="tls_decryption_unsupported_target">Для розшифрування TLS потрібна версія Android 7 або новіша та пристрій x86_64/aarch64</string>
+    <string name="save_as_csv">Зберегти як CSV</string>
+    <string name="last_capture">Останнє захоплення</string>
+    <string name="view_all">Переглянути всі</string>
+    <string name="app_and_n_more">%1$s та ще %2$d</string>
+    <string name="capture_list_info">%1$s · %2$s · %3$s</string>
+    <string name="capture_list">Список захоплень</string>
+    <string name="captures_count">Захоплення (%1$d)</string>
+    <string name="storage_used">Використано пам\'ять</string>
+    <string name="storage_used_value">%1$s / %2$s</string>
+    <string name="no_captures">Немає захоплень</string>
+    <string name="rename">Перейменувати</string>
+    <string name="captures_delete_confirm">Видалити вибрані захоплення?</string>
+    <string name="less_than_one_sec">&lt; 1 s</string>
+    <string name="n_seconds">%1$d s</string>
+    <string name="n_minutes">%1$d m</string>
+    <string name="n_hours_minutes">%1$d h, %2$d m</string>
+    <string name="connections_log_size">Максимальна кількість зареєстрованих підключень</string>
+    <string name="connections_log_size_entry">%1$s (використано ~%2$d МБ оперативної пам\'яті)</string>
+    <string name="capture_list_files_changed">Змінені захоплення на диску, список оновлено</string>
+    <string name="permission_required">Потрібен дозвіл</string>
+    <string name="local_network_notice">Починаючи з Android 17 застосунки повинні запитувати дозвіл перед підключенням до пристроїв у локальній мережі. PCAPdroid потребує дозволу \"Пристрої поблизу\", щоб мати змогу відслідковувати всі мережеві з\'єднання, включно з тими, що спрямовані до локальних пристроїв</string>
+    <string name="local_network_permission_denied">PCAPdroid потребує дозволу \"Пристрої поблизу\", щоб розпочати захоплення. Вам потрібно надати його вручну в налаштуваннях дозволів застосунку</string>
+    <string name="local_network_permission_required">Дозвіл \"Пристрої поблизу\" потрібен для захоплення пакетів</string>
+    <string name="grant_permission_action">Надати</string>
+    <string name="open_settings">Відкрити налаштування</string>
+    <string name="backup_restore">Резервне копіювання та відновлення</string>
+    <string name="export_settings">Експортувати налаштування</string>
+    <string name="export_settings_summary">Зберегти налаштування додатку у файл, щоб відновити їх пізніше</string>
+    <string name="import_settings">Імпортувати налаштування</string>
+    <string name="import_settings_summary">Відновити налаштування додатку з попередньої резервної копії</string>
+    <string name="import_settings_confirm">Усі поточні налаштування буде замінено налаштуваннями, експортованими %1$s.\n\nПРИМІТКА: імпортуйте налаштування лише з надійного джерела.\n\nДодаток буде перезапущено, щоб застосувати їх. Продовжити?</string>
+    <string name="settings_imported">Налаштування імпортовано</string>
+    <string name="imported_license_invalid">Імпортована ліцензія недійсна на цьому пристрої, тому платні функції будуть недоступні. Ліцензії прив\'язані до конкретного пристрою та встановлення додатку</string>
+    <string name="captures_not_accessible">%1$d захоплень з імпортованого списку недоступні. Якщо їхні файли досі наявні, виберіть папку, яка їх містить, щоб відновити список</string>
+    <string name="captures_restored">%1$d захоплень відновлено, %2$d пропущено</string>
+    <string name="select_folder">Вибрати папку</string>
+    <string name="skip_action">Пропустити</string>
+    <string name="import_capture_list_confirm">Резервна копія містить %1$d захоплень, а в списку цього пристрою вже є %2$d захоплень.\n\nЯк ви хочете продовжити?</string>
+    <string name="merge_action">Об\'єднати</string>
+    <string name="replace_action">Замінити</string>
+    <string name="keep_current_action">Залишити поточні</string>
+    <string name="mitm_addon_not_available">Для дешифрування TLS потрібне доповнення mitm PCAPdroid, яке недоступне в цій збірці</string>
+    <string name="import_anyway_action">Усе одно імпортувати</string>
+    <string name="and_n_more">та ще %1$d</string>
+    <string name="import_sensitive_prefs_confirm">Резервна копія змінює деякі конфіденційні налаштування, які можуть бути використані для перенаправлення трафіку вашого пристрою на зловмисний сервер:\n%1$s\n\nПродовжуйте, лише якщо ви створили цю резервну копію самостійно. Якщо вона отримана від когось іншого, скасуйте імпорт.</string>
+    <string name="restart_app_action">Перезапустити додаток</string>
+    <string name="skipped_prefs_import">ПРИМІТКА: наведені нижче налаштування не вдалося імпортувати, оскільки вони невідомі або недійсні:\n%1$s</string>
+    <string name="always_on_vpn_stop_notice">Для PCAPdroid увімкнено постійний VPN, тому зупинити захоплення потрібно в налаштуваннях Android.\n\nВідкрити налаштування VPN зараз?</string>
 </resources>

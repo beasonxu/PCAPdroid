@@ -8,8 +8,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import androidx.core.view.MenuProvider;
 import androidx.preference.PreferenceManager;
 
@@ -20,7 +22,6 @@ import com.emanuelef.remote_capture.fragments.AppsToggles;
 import com.emanuelef.remote_capture.model.AppDescriptor;
 import com.emanuelef.remote_capture.model.Prefs;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class AppFilterActivity extends BaseActivity implements MenuProvider {
@@ -49,6 +50,17 @@ public class AppFilterActivity extends BaseActivity implements MenuProvider {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, 0, 0);
         else
             overridePendingTransition(0, 0);
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+                    overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0);
+                else
+                    overridePendingTransition(0, 0);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -74,22 +86,8 @@ public class AppFilterActivity extends BaseActivity implements MenuProvider {
         return false;
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void onBackPressed() {
-        if(mFragment.onBackPressed())
-            return;
-
-        super.onBackPressed();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0);
-        else
-            overridePendingTransition(0, 0);
-    }
-
     public static class AppFilterFragment extends AppsToggles {
-        private final Set<String> mSelectedApps = new HashSet<>();
+        private final Set<String> mSelectedApps = new ArraySet<>();
         private @Nullable SharedPreferences mPrefs;
 
         @Override

@@ -25,9 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +37,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 
 import com.emanuelef.remote_capture.AppsResolver;
 import com.emanuelef.remote_capture.CaptureService;
@@ -48,11 +45,13 @@ import com.emanuelef.remote_capture.ConnectionsRegister;
 import com.emanuelef.remote_capture.R;
 import com.emanuelef.remote_capture.Utils;
 import com.emanuelef.remote_capture.activities.ConnectionDetailsActivity;
+import com.emanuelef.remote_capture.activities.MainActivity;
+import com.emanuelef.remote_capture.activities.MenuActionHandler;
 import com.emanuelef.remote_capture.model.AppDescriptor;
 import com.emanuelef.remote_capture.model.ConnectionDescriptor;
 import com.haipq.android.flagkit.FlagImageView;
 
-public class ConnectionOverview extends Fragment implements ConnectionDetailsActivity.ConnUpdateListener, MenuProvider {
+public class ConnectionOverview extends Fragment implements ConnectionDetailsActivity.ConnUpdateListener, MenuActionHandler {
     private static final String TAG = "ConnectionOverview";
     private ConnectionDetailsActivity mActivity;
     private ConnectionDescriptor mConn;
@@ -70,6 +69,9 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
     private TextView mLastSeen;
     //private TextView mTcpFlags;
     private TextView mError;
+    private TextView mSocketErrno;
+    private View mSocketErrnoRow;
+    private View mSocketErrnoInfo;
     private ImageView mBlacklistedIp;
     private ImageView mBlacklistedHost;
 
@@ -98,7 +100,6 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        requireActivity().addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
         return inflater.inflate(R.layout.connection_overview, container, false);
     }
 
@@ -130,6 +131,9 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
         mLastSeen = view.findViewById(R.id.last_seen);
         //mTcpFlags = view.findViewById(R.id.tcp_flags);
         mError = view.findViewById(R.id.error_msg);
+        mSocketErrno = view.findViewById(R.id.detail_errno);
+        mSocketErrnoRow = view.findViewById(R.id.error_row);
+        mSocketErrnoInfo = view.findViewById(R.id.error_info);
         mBlacklistedIp = view.findViewById(R.id.blacklisted_ip);
         mBlacklistedHost = view.findViewById(R.id.blacklisted_host);
 
@@ -158,6 +162,24 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
                 proto.setText(String.format(getResources().getString(R.string.app_and_proto), mConn.l7proto, l4proto));
             else
                 proto.setText(mConn.l7proto);
+
+            CharSequence protoMsg = null;
+            if (mConn.l7proto.equals("DNS"))
+                protoMsg = getString(R.string.dns_conn_info);
+            else if ((mConn.l7proto.equals("TLS")) || (mConn.l7proto.equals("HTTPS")))
+                protoMsg = Utils.getText(view.getContext(), R.string.tls_conn_info, MainActivity.TLS_DECRYPTION_DOCS_URL);
+
+            if (protoMsg != null) {
+                final CharSequence msg = protoMsg;
+                View protoInfo = view.findViewById(R.id.protocol_info);
+                protoInfo.setVisibility(View.VISIBLE);
+
+                protoInfo.setOnClickListener(view1 -> {
+                    Context ctx = getContext();
+                    if (ctx != null)
+                        Utils.showHelpDialog(ctx, msg);
+                });
+            }
 
             if(l4proto.equals("ICMP")) {
                 source.setText(mConn.src_ip);
@@ -227,12 +249,7 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
     }
 
     @Override
-    public void onCreateMenu(@NonNull Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.copy_share_menu, menu);
-    }
-
-    @Override
-    public boolean onMenuItemSelected(@NonNull MenuItem item) {
+    public boolean handleMenuAction(MenuItem item) {
         int id = item.getItemId();
 
         if(id == R.id.copy_to_clipboard) {
@@ -270,7 +287,7 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
             mBlockedPktsRow.setVisibility(View.VISIBLE);
         }
 
-        mDurationView.setText(Utils.formatDuration((mConn.last_seen - mConn.first_seen) / 1000));
+        mDurationView.setText(Utils.formatDuration(context, (mConn.last_seen - mConn.first_seen) / 1000));
         mFirstSeen.setText(Utils.formatEpochMillis(mActivity, mConn.first_seen));
         mLastSeen.setText(Utils.formatEpochMillis(mActivity, mConn.last_seen));
         mStatus.setText(mConn.getStatusLabel(mActivity));
@@ -279,6 +296,26 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
         //mTcpFlags.setText(Utils.tcpFlagsToStr(mConn.getRcvdTcpFlags()) + " <- " + Utils.tcpFlagsToStr(mConn.getSentTcpFlags()));
         mBlacklistedIp.setVisibility(mConn.isBlacklistedIp() ? View.VISIBLE : View.GONE);
         mBlacklistedHost.setVisibility(mConn.isBlacklistedHost() ? View.VISIBLE : View.GONE);
+
+        if (mConn.error > 0) {
+            mSocketErrnoRow.setVisibility(View.VISIBLE);
+
+            Pair<Integer, Integer> errnoInfo = getSocketErrnoInfo(mConn.error);
+            mSocketErrno.setText(context.getString(R.string.error_code_with_text,
+                    context.getString((errnoInfo != null) ? errnoInfo.first : R.string.unknown_app),
+                    mConn.error));
+
+            if (errnoInfo != null) {
+                final int msgId = errnoInfo.second;
+
+                mSocketErrnoInfo.setOnClickListener(view -> {
+                    Context ctx = getContext();
+                    if (ctx != null)
+                        Utils.showHelpDialog(ctx, msgId);
+                });
+            } else
+                mSocketErrnoInfo.setVisibility(View.GONE);
+        }
 
         if(mConn.decryption_error != null) {
             mError.setTextColor(ContextCompat.getColor(context, R.color.danger));
@@ -309,11 +346,36 @@ public class ConnectionOverview extends Fragment implements ConnectionDetailsAct
             mError.setText(R.string.decryption_info_no_rule);
             mError.setVisibility(View.VISIBLE);
         } else if((mConn.getDecryptionStatus() == ConnectionDescriptor.DecryptionStatus.NOT_DECRYPTABLE)
-                && mConn.l7proto.equals("QUIC")) {
+                && mConn.l7proto.equals("QUIC") &&
+                CaptureService.isDecryptingTLS()) {
             mError.setTextColor(ContextCompat.getColor(context, R.color.warning));
             mError.setText(R.string.decrypt_quic_notice);
             mError.setVisibility(View.VISIBLE);
         } else
             mError.setVisibility(View.GONE);
+    }
+
+    private Pair<Integer, Integer> getSocketErrnoInfo(int errno) {
+        return switch (errno) {
+            case 32 -> /* EPIPE */
+                    new Pair<>(R.string.errno_epipe, R.string.errno_epipe_msg);
+            case 100 -> /* ENETDOWN */
+                    new Pair<>(R.string.errno_enetdown, R.string.errno_enetdown_msg);
+            case 101 -> /* ENETUNREACH */
+                    new Pair<>(R.string.errno_enetunreach, R.string.errno_enetunreach_msg);
+            case 102 -> /* ENETRESET */
+                    new Pair<>(R.string.errno_enetreset, R.string.errno_enetreset_msg);
+            case 103 -> /* ECONNABORTED */
+                    new Pair<>(R.string.errno_econnaborted, R.string.errno_econnaborted_msg);
+            case 104 -> /* ECONNRESET */
+                    new Pair<>(R.string.errno_econnreset, R.string.errno_econnreset_msg);
+            case 110 -> /* ETIMEDOUT */
+                    new Pair<>(R.string.errno_etimedout, R.string.errno_etimedout_msg);
+            case 111 -> /* ECONNREFUSED */
+                    new Pair<>(R.string.errno_econnrefused, R.string.errno_econnrefused_msg);
+            case 113 -> /* EHOSTUNREACH */
+                    new Pair<>(R.string.errno_ehostunreach, R.string.errno_ehostunreach_msg);
+            default -> null;
+        };
     }
 }

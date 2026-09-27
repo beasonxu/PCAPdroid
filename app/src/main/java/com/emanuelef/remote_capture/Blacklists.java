@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with PCAPdroid.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2020-21 - Emanuele Faranda
+ * Copyright 2020-26 - Emanuele Faranda
  */
 
 package com.emanuelef.remote_capture;
@@ -82,15 +82,11 @@ public class Blacklists {
 
         // Domains
         addList("Maltrail", BlacklistDescriptor.Type.DOMAIN_BLACKLIST,"maltrail-malware-domains.txt",
-                "https://raw.githubusercontent.com/stamparm/aux/master/maltrail-malware-domains.txt");
+                "https://github.com/stamparm/trails/releases/latest/download/maltrail-malware-domains.txt");
 
         // IPs
         addList("Emerging Threats", BlacklistDescriptor.Type.IP_BLACKLIST, "emerging-Block-IPs.txt",
                 "https://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt");
-        addList("SSLBL Botnet C2", BlacklistDescriptor.Type.IP_BLACKLIST, "abuse_sslipblacklist.txt",
-                "https://sslbl.abuse.ch/blacklist/sslipblacklist.txt");
-        addList("Feodo Tracker Botnet C2", BlacklistDescriptor.Type.IP_BLACKLIST, "feodotracker_ipblocklist.txt",
-                "https://feodotracker.abuse.ch/downloads/ipblocklist.txt"); // NOTE: some IPs are in emergingthreats, but not all
         addList("DigitalSide Threat-Intel", BlacklistDescriptor.Type.IP_BLACKLIST,  "digitalsideit_ips.txt",
                 "https://raw.githubusercontent.com/davidonzo/Threat-Intel/master/lists/latestips.txt");
 

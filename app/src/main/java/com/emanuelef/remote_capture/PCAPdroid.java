@@ -60,6 +60,9 @@ public class PCAPdroid extends Application {
     private Blacklists mBlacklists;
     private CtrlPermissions mCtrlPermissions;
     private Context mLocalizedContext;
+    private boolean mIsDecryptingPcap = false;
+    private boolean mIsUsharkAvailable = false;
+    private String mLoadedPcapBasename = null;
     private static WeakReference<PCAPdroid> mInstance;
     protected static boolean isUnderTest = false;
 
@@ -85,19 +88,7 @@ public class PCAPdroid extends Application {
 
         mInstance = new WeakReference<>(this);
         mLocalizedContext = createConfigurationContext(Utils.getLocalizedConfig(this));
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = prefs.getString(Prefs.PREF_APP_THEME, "");
-
-        if("".equals(theme)) {
-            if(Utils.isTv(this)) {
-                // Use the dark theme by default on Android TV
-                theme = "dark";
-                prefs.edit().putString(Prefs.PREF_APP_THEME, theme).apply();
-            } else
-                theme = "system";
-        }
-        Utils.setAppTheme(theme);
+        mIsUsharkAvailable = CaptureService.isUsharkAvailable(this);
 
         // Listen to package events
         IntentFilter filter = new IntentFilter();
@@ -140,7 +131,7 @@ public class PCAPdroid extends Application {
 
     public MatchList getVisualizationMask() {
         if(mVisMask == null)
-            mVisMask = new MatchList(mLocalizedContext, Prefs.PREF_VISUALIZATION_MASK);
+            mVisMask = MatchList.load(mLocalizedContext, Prefs.PREF_VISUALIZATION_MASK);
 
         return mVisMask;
     }
@@ -153,13 +144,13 @@ public class PCAPdroid extends Application {
 
     public MatchList getMalwareWhitelist() {
         if(mMalwareWhitelist == null)
-            mMalwareWhitelist = new MatchList(mLocalizedContext, Prefs.PREF_MALWARE_WHITELIST);
+            mMalwareWhitelist = MatchList.load(mLocalizedContext, Prefs.PREF_MALWARE_WHITELIST);
         return mMalwareWhitelist;
     }
 
     public Blocklist getBlocklist() {
         if(mBlocklist == null)
-            mBlocklist = new Blocklist(mLocalizedContext);
+            mBlocklist = Blocklist.load(mLocalizedContext);
         return mBlocklist;
     }
 
@@ -204,7 +195,7 @@ public class PCAPdroid extends Application {
 
     private void removeUninstalledAppsFromAppFilter() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> filter = Prefs.getAppFilter(prefs);
+        Set<String> filter = Prefs.getAppFilterRaw(prefs);
         ArrayList<String> to_remove = new ArrayList<>();
         PackageManager pm = getPackageManager();
 
@@ -228,7 +219,7 @@ public class PCAPdroid extends Application {
     public MatchList getFirewallWhitelist() {
         if(mFirewallWhitelist == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            mFirewallWhitelist = new MatchList(mLocalizedContext, Prefs.PREF_FIREWALL_WHITELIST);
+            mFirewallWhitelist = MatchList.load(mLocalizedContext, Prefs.PREF_FIREWALL_WHITELIST);
 
             if(!Prefs.isFirewallWhitelistInitialized(prefs)) {
                 initFirewallWhitelist();
@@ -240,7 +231,7 @@ public class PCAPdroid extends Application {
 
     public MatchList getDecryptionList() {
         if(mDecryptionList == null)
-            mDecryptionList = new MatchList(mLocalizedContext, Prefs.PREF_DECRYPTION_LIST);
+            mDecryptionList = MatchList.load(mLocalizedContext, Prefs.PREF_DECRYPTION_LIST);
 
         return mDecryptionList;
     }
@@ -249,5 +240,25 @@ public class PCAPdroid extends Application {
         if(mCtrlPermissions == null)
             mCtrlPermissions = new CtrlPermissions(this);
         return mCtrlPermissions;
+    }
+
+    public void setIsDecryptingPcap(boolean val) {
+        mIsDecryptingPcap = val;
+    }
+
+    public boolean isDecryptingPcap() {
+        return mIsDecryptingPcap;
+    }
+
+    public boolean isUsharkAvailable() {
+        return mIsUsharkAvailable;
+    }
+
+    public void setLoadedPcapBasename(String basename) {
+        mLoadedPcapBasename = basename;
+    }
+
+    public String getLoadedPcapBasename() {
+        return mLoadedPcapBasename;
     }
 }

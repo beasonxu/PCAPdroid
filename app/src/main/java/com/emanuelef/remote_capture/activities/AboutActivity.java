@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with PCAPdroid.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2020-24 - Emanuele Faranda
+ * Copyright 2020-26 - Emanuele Faranda
  */
 
 package com.emanuelef.remote_capture.activities;
@@ -49,13 +49,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.text.HtmlCompat;
 import androidx.core.view.MenuProvider;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.emanuelef.remote_capture.Billing;
 import com.emanuelef.remote_capture.CaptureService;
 import com.emanuelef.remote_capture.Log;
 import com.emanuelef.remote_capture.MitmAddon;
+import com.emanuelef.remote_capture.PCAPdroid;
 import com.emanuelef.remote_capture.R;
 import com.emanuelef.remote_capture.Utils;
 import com.emanuelef.remote_capture.model.Prefs;
@@ -91,12 +95,24 @@ public class AboutActivity extends BaseActivity implements MenuProvider {
         setContentView(R.layout.about_activity);
         addMenuProvider(this);
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scrollView), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() |
+                    WindowInsetsCompat.Type.displayCutout());
+            v.setPadding(insets.left, insets.top, insets.right, 0);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         mHandler = new Handler(Looper.getMainLooper());
         TextView appVersion = findViewById(R.id.app_version);
         appVersion.setText("PCAPdroid " + Utils.getAppVersion(this));
 
         ((TextView)findViewById(R.id.app_license)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView)findViewById(R.id.opensource_licenses)).setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView wsLicenses = findViewById(R.id.wireshark_licenses);
+        wsLicenses.setMovementMethod(LinkMovementMethod.getInstance());
+        wsLicenses.setVisibility(PCAPdroid.getInstance().isUsharkAvailable() ? View.VISIBLE : View.GONE);
 
         TextView sourceLink = findViewById(R.id.app_source_link);
         String localized = sourceLink.getText().toString();
@@ -127,8 +143,11 @@ public class AboutActivity extends BaseActivity implements MenuProvider {
     public void onCreateMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.about_menu, menu);
 
+        /* In the play build, the paid features are purchased via the billing library. The license
+         * dialog is only shown to the users which already have a license (e.g. purchased before
+         * switching to the play build), so that they can review and update it. */
         Billing billing = Billing.newInstance(this);
-        if(billing.isPlayStore())
+        if(billing.isPlayStore() && billing.getLicense().isEmpty())
             menu.findItem(R.id.paid_features).setVisible(false);
     }
 
@@ -166,8 +185,11 @@ public class AboutActivity extends BaseActivity implements MenuProvider {
             if(dns_mode != null)
                 deviceInfo += "\n" + "PrivateDnsMode: " + dns_mode;
 
-            // Mitm doze
-            deviceInfo += "\n" + "MitmBatteryOptimized: " + ((MitmAddon.isInstalled(this) && MitmAddon.isDozeEnabled(this)) ? "true" : "false");
+            String mitm_version = MitmAddon.getInstalledVersionName(this);
+            if (!mitm_version.isEmpty()) {
+                deviceInfo += "\n" + "MitmAddonVersion: " + mitm_version;
+                deviceInfo += "\n" + "MitmBatteryOptimized: " + (MitmAddon.isDozeEnabled(this) ? "true" : "false");
+            }
 
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.scrollable_dialog, null);
@@ -196,10 +218,14 @@ public class AboutActivity extends BaseActivity implements MenuProvider {
         instIdText.setText(instId);
 
         mDialogClosing = false;
+
+        // the QR activation is only used to purchase a license, which is not possible in the play build
+        boolean qr_available = !billing.isPlayStore();
         final View showQr = content.findViewById(R.id.show_qr_code);
+        showQr.setVisibility(qr_available ? View.VISIBLE : View.GONE);
         showQr.setOnClickListener(v -> showQrCode(content, instId));
 
-        if(Utils.isTv(this) && !billing.isPurchased(Billing.SUPPORTER_SKU)) {
+        if(qr_available && Utils.isTv(this) && !billing.isPurchased(Billing.SUPPORTER_SKU)) {
             instIdText.setOnClickListener(v -> Utils.shareText(this, getString(R.string.installation_id), instId));
             showQrCode(content, instId);
         }
@@ -214,8 +240,17 @@ public class AboutActivity extends BaseActivity implements MenuProvider {
         mLicenseDialog = new AlertDialog.Builder(this)
                 .setView(content)
                 .setPositiveButton(R.string.ok, (dialog, whichButton) -> {
+                    String license = licenseCode.getText().toString();
+                    if(license.equals(billing.getLicense()))
+                        return;
+
+                    if(!license.isEmpty() && !billing.isValidLicense(license)) {
+                        Utils.showToastLong(this, R.string.invalid_license);
+                        return;
+                    }
+
                     boolean was_valid = billing.isPurchased(Billing.SUPPORTER_SKU);
-                    billing.setLicense(licenseCode.getText().toString());
+                    billing.setLicense(license);
 
                     if(!was_valid && billing.isPurchased(Billing.SUPPORTER_SKU))
                         Utils.showToastLong(this, R.string.paid_features_unlocked);

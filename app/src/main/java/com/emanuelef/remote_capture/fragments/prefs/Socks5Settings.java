@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with PCAPdroid.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright 2023 - Emanuele Faranda
+ * Copyright 2023-26 - Emanuele Faranda
  */
 
 package com.emanuelef.remote_capture.fragments.prefs;
@@ -23,7 +23,6 @@ import android.text.InputType;
 
 import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
 import com.emanuelef.remote_capture.R;
@@ -32,7 +31,7 @@ import com.emanuelef.remote_capture.model.Prefs;
 
 import java.util.Objects;
 
-public class Socks5Settings extends PreferenceFragmentCompat {
+public class Socks5Settings extends SettingsSubFragment {
     private EditTextPreference mProxyHost;
     private EditTextPreference mProxyPort;
     private EditTextPreference mUsername;
